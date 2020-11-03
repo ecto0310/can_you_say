@@ -1,7 +1,12 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Home from './component/home';
+import Play from './component/play';
+import Json from './component/json';
 
 function App() {
   return (
@@ -15,6 +20,13 @@ function App() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/:id' component={Play} />
+          <Route exact path='/:id/json' component={Json} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
