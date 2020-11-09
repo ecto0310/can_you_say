@@ -3,6 +3,7 @@ import { Jumbotron, Button, Collapse, Card, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 
+import * as Record from '../assets/record';
 import ErrorMsg from '../assets/errorMsg';
 
 import './home.scss';
@@ -74,7 +75,7 @@ class Home extends React.Component<homeProps, homeState> {
               <tr key={theme.path}>
                 <td>{theme.title}</td>
                 <td>{theme.answerCnt}</td>
-                <td>-</td>
+                <td>{Record.get(theme.path)}</td>
                 <td><Link to={theme.path}>遊ぶ</Link></td>
               </tr>
             ))}
