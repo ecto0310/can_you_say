@@ -1,0 +1,12 @@
+[
+  {
+    "title": "サンプル1",
+    "answerCnt": 100,
+    "path": "sample1"
+  },
+  {
+    "title": "サンプル2",
+    "answerCnt": 10,
+    "path": "sample2"
+  }
+]

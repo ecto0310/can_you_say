@@ -1,19 +1,44 @@
 import React from 'react';
-import { Jumbotron, Button, Collapse, Card } from 'react-bootstrap';
+import { Jumbotron, Button, Collapse, Card, Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import Axios from 'axios';
+
+import ErrorMsg from '../assets/errorMsg';
+
+import './home.scss';
 
 interface homeProps {
 }
 
+type Theme = {
+  title: string;
+  answerCnt: Number;
+  path: string;
+};
+
 interface homeState {
   isOpen: boolean;
+  themes: Theme[];
+  errorMsg: string;
 }
 
 class Home extends React.Component<homeProps, homeState> {
   constructor(props: homeProps) {
     super(props);
     this.state = {
-      isOpen: false
-    }
+      isOpen: false,
+      themes: [],
+      errorMsg: ""
+    };
+  }
+
+  componentDidMount() {
+    const url = "./theme.json";
+    Axios.get<Theme[]>(url).then((res) => {
+      this.setState({ themes: res.data });
+    }).catch(error => {
+      this.setState({ errorMsg: error.response.status });
+    });
   }
 
   render() {
@@ -34,6 +59,27 @@ class Home extends React.Component<homeProps, homeState> {
             </Collapse>
           </div>
         </Jumbotron>
+        <ErrorMsg msg={this.state.errorMsg} />
+        <Table bordered id="theme-list">
+          <thead>
+            <tr>
+              <th id="title">お題</th>
+              <th id="answer-cnt">有効回答数</th>
+              <th id="personal-best">自己ベスト</th>
+              <th id="play"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.themes.map((theme) => (
+              <tr key={theme.path}>
+                <td>{theme.title}</td>
+                <td>{theme.answerCnt}</td>
+                <td>-</td>
+                <td><Link to={theme.path}>遊ぶ</Link></td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
     );
   }
