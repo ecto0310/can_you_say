@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,13 +20,15 @@ function App() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Switch>
-          <Route exact path='/' component={Home} />
-          <Route exact path='/:id' component={Play} />
-          <Route exact path='/:id/json' component={Json} />
-        </Switch>
-      </BrowserRouter>
+      <Container>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/:id' component={Play} />
+            <Route exact path='/:id/json' component={Json} />
+          </Switch>
+        </BrowserRouter>
+      </Container>
     </div>
   );
 }
