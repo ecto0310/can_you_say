@@ -1,5 +1,5 @@
 import React from 'react';
-import { Jumbotron } from 'react-bootstrap';
+import { Jumbotron, Button, InputGroup, Col, Form } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -56,6 +56,46 @@ class Play extends React.Component<playProps, playState> {
           </div>
         </Jumbotron>
         <ErrorMsg msg={this.state.errorMsg} />
+        <Form>
+          <Form.Row className="align-items-center">
+            <Col xs="auto">
+              <Form.Control
+                type="text"
+                id="timer"
+                value="00:00.0"
+                disabled={true}
+              />
+            </Col>
+            <Col xs="auto">
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>残り</InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  type="text"
+                  id="solve-count"
+                  value="000"
+                  disabled={true}
+                />
+              </InputGroup>
+            </Col>
+            <Col xs="auto">
+              <Form.Control
+                type="text"
+              />
+            </Col>
+            <Col xs="auto">
+              <Button type="button" variant="success">
+                回答
+              </Button>
+            </Col>
+            <Col xs="auto">
+              <Button type="button" variant="danger">
+                降参
+              </Button>
+            </Col>
+          </Form.Row>
+        </Form>
       </div>
     );
   }
