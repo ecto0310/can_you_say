@@ -1,0 +1,60 @@
+{
+  "name": "can_you_say",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.6",
+    "@types/react": "^16.9.55",
+    "@types/react-dom": "^16.9.9",
+    "@types/react-router-dom": "^5.1.6",
+    "axios": "^0.21.0",
+    "bootstrap": "^4.5.3",
+    "node-sass": "^4.0.0",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.0",
+    "react-twitter-widgets": "^1.9.5",
+    "typescript": "^4.0.5",
+    "web-vitals": "^0.2.4"
+  },
+  "scripts": {
+    "start": "./public/create_list.sh && react-scripts start",
+    "build": "./public/create_list.sh && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:ecto0310/can_you_say.git"
+  },
+  "author": "ecto0310",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ecto0310/can_you_say/issues"
+  },
+  "homepage": "https://ecto0310.github.io/can_you_say"
+}
