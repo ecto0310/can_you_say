@@ -201,7 +201,7 @@ class Play extends React.Component<playProps, playState> {
               </Button>
             </Col>
             <Col xs="auto">
-              <Share url={window.location.origin} options={{ text: this.getTweetText(), hashtags: "言えるかな" }} />
+              <Share url={window.location.href} options={{ text: this.getTweetText(), hashtags: "言えるかな" }} />
             </Col>
           </Form.Row>
         </Form>
