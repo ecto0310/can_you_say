@@ -1,6 +1,7 @@
 import React from 'react';
 import { Jumbotron, Button, InputGroup, Col, Form, Table } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
+import { Share } from 'react-twitter-widgets'
 import Axios from 'axios';
 
 import * as Record from '../assets/record';
@@ -133,6 +134,19 @@ class Play extends React.Component<playProps, playState> {
     });
   }
 
+  getTweetText(): string {
+    if (this.state.playData.play === 2) {
+      if (this.state.playData.answerCnt === 0)
+        return "あなたは" + Record.convertString(this.state.timer) + "かけて" + this.state.gameData.answerCnt + "個の" + this.state.gameData.name + "を全て言えました。";
+      else
+        return "あなたは" + Record.convertString(this.state.timer) + "かけて" + this.state.gameData.answerCnt + "個の" + this.state.gameData.name + "を言えました。" + this.state.playData.answerCnt + "個言えませんでした。";
+    }
+    if (this.state.playData.play === 1) {
+      return "あなたは" + this.state.gameData.name + "を全て言うのに挑戦中です。";
+    }
+    return this.state.gameData.name + "全て言えるかな?";
+  }
+
   render() {
     return (
       <div className="play">
@@ -185,6 +199,9 @@ class Play extends React.Component<playProps, playState> {
               <Button type="button" variant="danger" onClick={() => this.endGame()}>
                 降参
               </Button>
+            </Col>
+            <Col xs="auto">
+              <Share url={window.location.origin} options={{ text: this.getTweetText(), hashtags: "言えるかな" }} />
             </Col>
           </Form.Row>
         </Form>
