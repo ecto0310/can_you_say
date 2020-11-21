@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/can_you_say/static/css/main.1a512d72.chunk.css",
+    "main.js": "/can_you_say/static/js/main.0322d827.chunk.js",
+    "main.js.map": "/can_you_say/static/js/main.0322d827.chunk.js.map",
+    "runtime-main.js": "/can_you_say/static/js/runtime-main.b99a8355.js",
+    "runtime-main.js.map": "/can_you_say/static/js/runtime-main.b99a8355.js.map",
+    "static/css/2.20aa2d7b.chunk.css": "/can_you_say/static/css/2.20aa2d7b.chunk.css",
+    "static/js/2.38e3119d.chunk.js": "/can_you_say/static/js/2.38e3119d.chunk.js",
+    "static/js/2.38e3119d.chunk.js.map": "/can_you_say/static/js/2.38e3119d.chunk.js.map",
+    "static/js/3.1c45c5f6.chunk.js": "/can_you_say/static/js/3.1c45c5f6.chunk.js",
+    "static/js/3.1c45c5f6.chunk.js.map": "/can_you_say/static/js/3.1c45c5f6.chunk.js.map",
+    "index.html": "/can_you_say/index.html",
+    "static/css/2.20aa2d7b.chunk.css.map": "/can_you_say/static/css/2.20aa2d7b.chunk.css.map",
+    "static/css/main.1a512d72.chunk.css.map": "/can_you_say/static/css/main.1a512d72.chunk.css.map",
+    "static/js/2.38e3119d.chunk.js.LICENSE.txt": "/can_you_say/static/js/2.38e3119d.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b99a8355.js",
+    "static/css/2.20aa2d7b.chunk.css",
+    "static/js/2.38e3119d.chunk.js",
+    "static/css/main.1a512d72.chunk.css",
+    "static/js/main.0322d827.chunk.js"
+  ]
+}

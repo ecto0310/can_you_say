@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/component/home.scss","webpack://src/component/play.scss"],"names":[],"mappings":"AAAA,gCAGM,SAAU,CCHhB,+BAGM,SAAc","file":"main.1a512d72.chunk.css","sourcesContent":[".home {\n  table#theme-list {\n    th#title {\n      width: 60%;\n    }\n  }\n}\n",".play {\n  table#answer-list {\n    #wrong {\n      color: #ff0000;\n    }\n  }\n}\n"]}
