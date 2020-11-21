@@ -139,7 +139,7 @@ class Play extends React.Component<playProps, playState> {
       if (this.state.playData.answerCnt === 0)
         return "あなたは" + Record.convertString(this.state.timer) + "かけて" + this.state.gameData.answerCnt + "個の" + this.state.gameData.name + "を全て言えました。";
       else
-        return "あなたは" + Record.convertString(this.state.timer) + "かけて" + this.state.gameData.answerCnt + "個の" + this.state.gameData.name + "を言えました。" + this.state.playData.answerCnt + "個言えませんでした。";
+        return "あなたは" + Record.convertString(this.state.timer) + "かけて" + (this.state.gameData.answerCnt-this.state.playData.answerCnt) + "個の" + this.state.gameData.name + "を言えました。" + this.state.playData.answerCnt + "個言えませんでした。";
     }
     if (this.state.playData.play === 1) {
       return "あなたは" + this.state.gameData.name + "を全て言うのに挑戦中です。";
