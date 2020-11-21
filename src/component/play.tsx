@@ -21,8 +21,19 @@ type GameData = {
   answers: GameStatus[];
 };
 
+type PlayData = {
+  play: boolean;
+  startUnixTime: number;
+  answerCnt: number;
+  answers: GameStatus[];
+};
+
 interface playState {
-  gamaData: GameData;
+  gameData: GameData;
+  playData: PlayData;
+  timer: number;
+  timerId: NodeJS.Timeout | undefined;
+  input: string;
   errorMsg: string;
 };
 
@@ -30,7 +41,21 @@ class Play extends React.Component<playProps, playState> {
   constructor(props: playProps) {
     super(props);
     this.state = {
-      gamaData: { name: "-", description: "-", answerCnt: 0, answers: [] },
+      gameData: {
+        name: "-",
+        description: "-",
+        answerCnt: 0,
+        answers: []
+      },
+      playData: {
+        play: false,
+        startUnixTime: 0,
+        answerCnt: 0,
+        answers: []
+      },
+      timer: 0,
+      timerId: undefined,
+      input: "",
       errorMsg: ""
     };
   }
@@ -38,20 +63,45 @@ class Play extends React.Component<playProps, playState> {
   componentDidMount() {
     const url = "./data/" + this.props.match.params.id + ".json";
     Axios.get<GameData>(url).then((res) => {
-      this.setState({ gamaData: res.data });
+      this.setState({ gameData: res.data });
     }).catch(error => {
       this.setState({ errorMsg: error.response.status });
     });
+  }
+
+  endGame() {
+    clearInterval(this.state.timerId!);
+    Record.set(this.props.match.params.id, this.state.timer, this.state.gameData.answerCnt - this.state.playData.answerCnt);
+  }
+
+  submit() {
+    let playData = this.state.playData;
+    if (this.state.playData.play) {
+      playData.answers.forEach(i => { if (i.answer === this.state.input && !i.solve) { i.solve = true; i.time = Record.convertString(this.state.timer); playData.answerCnt--; } });
+      this.setState({ playData: playData, input: "" });
+      if (playData.answerCnt === 0) {
+        this.endGame();
+      }
+    } else {
+      playData.play = true
+      playData.answers = this.state.gameData.answers;
+      playData.answerCnt = this.state.gameData.answerCnt;
+      playData.answers.forEach(i => { i.solve = false });
+      playData.startUnixTime = Math.floor(new Date().getTime() / 10);
+      let timerId = setInterval(() => { this.setState({ timer: Math.floor(new Date().getTime() / 10 - playData.startUnixTime) }) }, 10);
+      this.setState({ playData: playData, timerId: timerId, input: "" });
+    }
+    console.log(this.state);
   }
 
   render() {
     return (
       <div className="play">
         <Jumbotron id="title">
-          <h3>{this.state.gamaData.name}</h3>
+          <h3>{this.state.gameData.name}</h3>
           <div>
-            {this.state.gamaData.description}<br />
-            有効回答数: {this.state.gamaData.answerCnt}<br />
+            {this.state.gameData.description}<br />
+            有効回答数: {this.state.gameData.answerCnt}<br />
             自己ベスト: {Record.get(this.props.match.params.id)}<br />
           </div>
         </Jumbotron>
@@ -62,7 +112,7 @@ class Play extends React.Component<playProps, playState> {
               <Form.Control
                 type="text"
                 id="timer"
-                value="00:00.0"
+                value={Record.convertString(this.state.timer)}
                 disabled={true}
               />
             </Col>
@@ -74,7 +124,7 @@ class Play extends React.Component<playProps, playState> {
                 <Form.Control
                   type="text"
                   id="solve-count"
-                  value="000"
+                  value={this.state.playData.answerCnt}
                   disabled={true}
                 />
               </InputGroup>
@@ -82,15 +132,18 @@ class Play extends React.Component<playProps, playState> {
             <Col xs="auto">
               <Form.Control
                 type="text"
+                value={this.state.input}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { this.setState({ input: e.target.value }) }}
+                onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => { if (e.key === "Enter") this.submit() }}
               />
             </Col>
             <Col xs="auto">
-              <Button type="button" variant="success">
+              <Button type="button" variant="success" onClick={() => this.submit()}>
                 回答
               </Button>
             </Col>
             <Col xs="auto">
-              <Button type="button" variant="danger">
+              <Button type="button" variant="danger" onClick={() => this.endGame()}>
                 降参
               </Button>
             </Col>
