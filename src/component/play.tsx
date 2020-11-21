@@ -1,10 +1,12 @@
 import React from 'react';
-import { Jumbotron, Button, InputGroup, Col, Form } from 'react-bootstrap';
+import { Jumbotron, Button, InputGroup, Col, Form, Table } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import Axios from 'axios';
 
 import * as Record from '../assets/record';
 import ErrorMsg from '../assets/errorMsg';
+
+import './play.scss';
 
 type playProps = {} & RouteComponentProps<{ id: string }>;
 
@@ -22,7 +24,7 @@ type GameData = {
 };
 
 type PlayData = {
-  play: boolean;
+  play: number;
   startUnixTime: number;
   answerCnt: number;
   answers: GameStatus[];
@@ -48,7 +50,7 @@ class Play extends React.Component<playProps, playState> {
         answers: []
       },
       playData: {
-        play: false,
+        play: 0,
         startUnixTime: 0,
         answerCnt: 0,
         answers: []
@@ -64,26 +66,37 @@ class Play extends React.Component<playProps, playState> {
     const url = "./data/" + this.props.match.params.id + ".json";
     Axios.get<GameData>(url).then((res) => {
       this.setState({ gameData: res.data });
+      this.setState({
+        playData: {
+          play: 0,
+          startUnixTime: 0,
+          answerCnt: res.data.answerCnt,
+          answers: res.data.answers
+        }
+      });
     }).catch(error => {
       this.setState({ errorMsg: error.response.status });
     });
   }
 
   endGame() {
+    let playData = this.state.playData;
+    playData.play = 2;
+    this.setState({ playData: playData });
     clearInterval(this.state.timerId!);
     Record.set(this.props.match.params.id, this.state.timer, this.state.gameData.answerCnt - this.state.playData.answerCnt);
   }
 
   submit() {
     let playData = this.state.playData;
-    if (this.state.playData.play) {
+    if (this.state.playData.play === 1) {
       playData.answers.forEach(i => { if (i.answer === this.state.input && !i.solve) { i.solve = true; i.time = Record.convertString(this.state.timer); playData.answerCnt--; } });
       this.setState({ playData: playData, input: "" });
       if (playData.answerCnt === 0) {
         this.endGame();
       }
-    } else {
-      playData.play = true
+    } else if (this.state.playData.play === 0) {
+      playData.play = 1;
       playData.answers = this.state.gameData.answers;
       playData.answerCnt = this.state.gameData.answerCnt;
       playData.answers.forEach(i => { i.solve = false });
@@ -91,7 +104,33 @@ class Play extends React.Component<playProps, playState> {
       let timerId = setInterval(() => { this.setState({ timer: Math.floor(new Date().getTime() / 10 - playData.startUnixTime) }) }, 10);
       this.setState({ playData: playData, timerId: timerId, input: "" });
     }
-    console.log(this.state);
+  }
+
+  answerTable(): JSX.Element[] {
+    return this.state.playData.answers.map((answer) => {
+      if (answer.solve) {
+        return (
+          <tr key={answer.answer}>
+            <td>{answer.answer}</td>
+            <td>{answer.time}</td>
+          </tr>
+        );
+      }
+      if (this.state.playData.play === 2) {
+        return (
+          <tr key={answer.answer} id="wrong">
+            <td>{answer.answer}</td>
+            <td>{answer.time}</td>
+          </tr>
+        );
+      }
+      return (
+        <tr key={answer.answer}>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+      );
+    });
   }
 
   render() {
@@ -139,7 +178,7 @@ class Play extends React.Component<playProps, playState> {
             </Col>
             <Col xs="auto">
               <Button type="button" variant="success" onClick={() => this.submit()}>
-                回答
+                {(this.state.playData.play === 0 ? "開始" : "回答")}
               </Button>
             </Col>
             <Col xs="auto">
@@ -149,6 +188,17 @@ class Play extends React.Component<playProps, playState> {
             </Col>
           </Form.Row>
         </Form>
+        <Table bordered id="answer-list" size="sm">
+          <thead>
+            <tr>
+              <th id="answer">答え</th>
+              <th id="answer-time">回答時間</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.answerTable()}
+          </tbody>
+        </Table>
       </div>
     );
   }
