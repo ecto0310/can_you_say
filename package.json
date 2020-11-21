@@ -1,6 +1,6 @@
 {
   "name": "can_you_say",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.5",
